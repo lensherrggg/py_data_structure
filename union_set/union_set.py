@@ -3,7 +3,6 @@ class UnionSet(object):
         self._size = _size
         # root node's value is negative of the size of root node's tree
         self._us = [-1 for _ in range(_size)]
-        self._priority = [0 for _ in range(_size)]
 
     @property
     def size(self):

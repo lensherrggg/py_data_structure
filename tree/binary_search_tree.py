@@ -1,17 +1,9 @@
 class TreeNode(object):
-    def __init__(self, _key):
-        self._key = _key
+    def __init__(self, _data):
+        self.data = _data
         self.left = None
         self.right = None
         self._childCount = 0
-
-    @property
-    def key(self):
-        return self._key
-
-    @key.setter
-    def key(self, _key):
-        self._key = _key
 
     @property
     def size(self):
@@ -28,7 +20,7 @@ class TreeNode(object):
             self._childCount = self.left.size + self.right.size
 
     def __repr__(self):
-        return repr(self._key)
+        return repr(self.data)
 
 
 # BST search
@@ -50,14 +42,14 @@ class BinarySearchTree(object):
             return 0
         return self.root.size
 
-    def insert(self, key):
-        self.root = self._insert(self.root, key)
+    def insert(self, data):
+        self.root = self._insert(self.root, data)
 
-    def delete(self, key):
-        self.root = self._delete(self.root, key)
+    def delete(self, data):
+        self.root = self._delete(self.root, data)
 
-    def find(self, key):
-        return self._find(self.root, key)
+    def find(self, data):
+        return self._find(self.root, data)
 
     def find_min(self):
         return self._find_min(self.root)
@@ -75,46 +67,46 @@ class BinarySearchTree(object):
         else:
             for node in self:
                 if lower_included and upper_included:
-                    if lower_bound <= node.key <= upper_bound:
-                        yield node.key
+                    if lower_bound <= node.data <= upper_bound:
+                        yield node.data
                 elif lower_included:
-                    if lower_bound <= node.key < upper_bound:
-                        yield node.key
+                    if lower_bound <= node.data < upper_bound:
+                        yield node.data
                 elif upper_included:
-                    if lower_bound < node.key <= upper_bound:
-                        yield node.key
+                    if lower_bound < node.data <= upper_bound:
+                        yield node.data
                 else:
-                    if lower_bound < node.key < upper_bound:
-                        yield node.key
+                    if lower_bound < node.data < upper_bound:
+                        yield node.data
 
                 if upper_included:
-                    if node.key > upper_bound:
+                    if node.data > upper_bound:
                         break
                 else:
-                    if node.key >= upper_bound:
+                    if node.data >= upper_bound:
                         break
 
-    def _insert(self, root, key):
+    def _insert(self, root, data):
         if root is None:
-            root = TreeNode(key)
-        elif key < root.key:
-            root.left = self._insert(root.left, key)
-        elif key > root.key:
-            root.right = self._insert(root.right, key)
+            root = TreeNode(data)
+        elif data < root.data:
+            root.left = self._insert(root.left, data)
+        elif data > root.data:
+            root.right = self._insert(root.right, data)
 
         root.update_child_count()
         return root
 
-    def _find(self, root, key):
+    def _find(self, root, data):
         if root is None:
             return None
 
-        if root.key == key:
+        if root.data == data:
             return root
-        elif key < root.key:
-            return self._find(root.left, key)
+        elif data < root.data:
+            return self._find(root.left, data)
         else:
-            return self._find(root.right, key)
+            return self._find(root.right, data)
 
     def _find_min(self, root):
         if root.left is not None:
@@ -126,18 +118,18 @@ class BinarySearchTree(object):
             return self._find_max(root.right)
         return root
 
-    def _delete(self, root, key):
+    def _delete(self, root, data):
         if root is None:
             return None
-        if key < root.key:
-            root.left = self._delete(root.left, key)
-        elif key > root.key:
-            root.right = self._delete(root.right, key)
+        if data < root.data:
+            root.left = self._delete(root.left, data)
+        elif data > root.data:
+            root.right = self._delete(root.right, data)
         else:
             if root.left is not None and root.right is not None:
                 temp = self._find_min(root.right)
-                root.key = temp.key
-                root.right = self._delete(root.right, temp.key)
+                root.data = temp.data
+                root.right = self._delete(root.right, temp.data)
             elif root.right is None and root.left is None:
                 root = None
             elif root.right is None:
@@ -149,29 +141,29 @@ class BinarySearchTree(object):
             root.update_child_count()
         return root
 
-    def _less_than(self, key, included=True):
+    def _less_than(self, data, included=True):
         for node in self:
             if included:
-                if node.key > key:
+                if node.data > data:
                     break
             else:
-                if node.key >= key:
+                if node.data >= data:
                     break
-            yield node.key
+            yield node.data
 
-    def _greater_than(self, key, included=True):
+    def _greater_than(self, data, included=True):
         for node in self:
             if included:
-                if node.key < key:
+                if node.data < data:
                     continue
             else:
-                if node.key <= key:
+                if node.data <= data:
                     continue
-            yield node.key
+            yield node.data
 
     def _traverse(self):
         for node in self:
-            yield node.key
+            yield node.data
 
 
 class BSTIterator(object):
