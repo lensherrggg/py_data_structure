@@ -1,10 +1,6 @@
-import copy
-
-
 class AVLTreeNode(object):
     def __init__(self, _data):
         self.data = _data
-        # height of left child tree minus height of right child tree
         self.height = 1
         self.left = None
         self.right = None
