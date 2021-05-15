@@ -1,3 +1,7 @@
+RED = 0
+BLACK = 1
+
+
 def is_bst(tree):
     def dfs(tree_root, data_vessel):
         if tree_root is None:
@@ -31,3 +35,21 @@ def is_balanced(tree):
         return helper(root.left) and helper(root.right)
 
     return helper(tree.root)
+
+
+def is_bst_for_rbtree(tree):
+    def dfs(tree_root, data_vessel):
+        if tree_root == tree.NIL:
+            return
+        dfs(tree_root.left, data_vessel)
+        data_vessel.append(tree_root.data)
+        dfs(tree_root.right, data_vessel)
+
+    root = tree.root
+    data_list = []
+    dfs(root, data_list)
+    for i in range(1, len(data_list)):
+        if data_list[i] < data_list[i - 1]:
+            return False
+
+    return True
